@@ -1,0 +1,9 @@
+.aligner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aligned {
+  max-width: 50%;
+}

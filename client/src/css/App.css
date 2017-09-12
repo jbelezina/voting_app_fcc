@@ -1,0 +1,59 @@
+.icon {
+  padding-top: 60px;
+}
+
+.featuretext {
+  color: white;
+  padding: 60px;
+}
+
+.features {
+  display: flex;
+  margin-top: -20px;
+}
+
+.featureOne {
+  flex:1;
+  color: white;
+}
+
+.featureTwo {
+  flex:1;
+  color: white;
+}
+
+.featureThree {
+  flex:1;
+  color: white;
+}
+
+.wholeChunk {
+  padding-top: -50px;
+}
+
+.topsection {
+
+  background-color: #cfcff7;
+}
+
+.topsectionContent {
+  background-image: url("/voting.jpg");
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.bottomsection {
+  margin-top: -15px;
+  display: flex;
+}
+
+.App-logo {
+  margin-top: 11px;
+  animation: App-logo-spin infinite 20s linear;
+  height: 40px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
