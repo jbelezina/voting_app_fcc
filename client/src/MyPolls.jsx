@@ -42,21 +42,10 @@ class MyPolls extends React.Component {
   
   componentDidMount() {
    
-/*    axios.get('http://localhost:3001/api/current_user')
-      .then(function (response) {
-
-          if(response) {
-            console.log(response)
-*/            
+  
           fetch('/api/polls')
             .then(res => res.json())
             .then(polls => {this.setState({ OtherPolls: polls })});
- /*       
-          } else {
-          console.log('sorry mate, log in first');
-        } 
-      })
-*/ 
   }
   
   voteForItem(indexOfPoll, indexOfAnswer, pollId){
