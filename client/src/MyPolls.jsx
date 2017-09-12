@@ -41,11 +41,9 @@ class MyPolls extends React.Component {
   }
   
   componentDidMount() {
-   
-  
-          fetch('/api/polls')
+          fetch('/api/polls', { credentials : 'same-origin' })
             .then(res => res.json())
-            .then(polls => {this.setState({ OtherPolls: polls })});
+            .then(polls => {this.setState({ OtherPolls: polls }) });
   }
   
   voteForItem(indexOfPoll, indexOfAnswer, pollId){

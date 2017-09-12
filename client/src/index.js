@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
 // imports: Materialize stuff
 import 'materialize-css';
@@ -19,6 +20,15 @@ import Footer from './Footer';
 import HomePage from './HomePage';
 import MyPolls from './MyPolls';
 
+let loggedIn = null;
+
+fetch('/api/current_user', { credentials : 'same-origin' })
+.then(user=>user.json())
+.then(user => {
+    console.log(user + 'logged from index.js')
+    loggedIn = user.loggedIn;
+              });
+
 
 
 ReactDOM.render(
@@ -26,8 +36,15 @@ ReactDOM.render(
    <Router>
     <div>
       <MenuBar/>
+      <Route exact path="/MyPolls" render={() => (
+      loggedIn ? (
+        <MyPolls/>
+          ) : (
+        <Redirect to="/"/>
+        
+      )
+      )}/>
       <Route exact path="/" component={HomePage}/>
-      <Route path="/MyPolls" component={MyPolls}/>
       <Footer/>
     </div>
   </Router>

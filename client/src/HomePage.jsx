@@ -8,7 +8,7 @@ class HomePage extends Component {
     super();
 
     this.state = {
-      loggedIn: 'not set',
+      loggedIn: null,
     }
   }
 
@@ -23,7 +23,6 @@ class HomePage extends Component {
 
   logUser(){
     console.log(this.state.loggedIn);
-
   }
 
   render() {
