@@ -11,7 +11,11 @@ class PollsCrudTable extends React.Component {
     if (this.props.myPolls) {
        table = this.props.myPolls.map((poll) => {
         return (
-            <PollsCrudTableItem poll={poll} key={poll.pollId}/>
+            <PollsCrudTableItem poll={poll} 
+                                key={poll._id} 
+                                deletePoll={this.props.deletePoll}
+                                activatePollEditing={this.props.activatePollEditing}
+                                />
             )
         }); 
     } else {

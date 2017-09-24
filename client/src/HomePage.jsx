@@ -16,7 +16,6 @@ class HomePage extends Component {
     fetch('/api/current_user', { credentials : 'same-origin' })
             .then(user=>user.json())
             .then(user => {
-                console.log(user)
                 this.setState({loggedIn:user.loggedIn});
                           });
   }

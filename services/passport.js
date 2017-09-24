@@ -23,18 +23,20 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, done) => {
     console.log('access token', accessToken);
     console.log('refresh token', refreshToken);
-    console.log('profile', profile);
+    
       
       User.findOne({ googleId: profile.id })
         .then((existingUser)=>{
           if (existingUser) {
             console.log('we already have a record with this profile id');
+            console.log('profile', profile);
             done(null, existingUser);
           } else {
             new User({googleId: profile.id})
               .save()
               .then(user => done(null, user))
               console.log('a new user added to DB');
+              console.log('profile', profile);
           }
         })
     }

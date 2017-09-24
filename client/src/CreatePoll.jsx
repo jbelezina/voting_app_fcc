@@ -15,7 +15,11 @@ class CreatePoll extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <CreatePollForm firstTabActive={this.props.firstTabActive} submitPoll={this.props.submitPoll} hideForm={this.props.hideForm}/>
+            <CreatePollForm firstTabActive={this.props.firstTabActive}
+                            submitPoll={this.props.submitPoll}
+                            hideForm={this.props.hideForm}
+                            updateOtherPolls={this.props.updateOtherPolls}
+                            />
           </div>
         </div>  
       </div>

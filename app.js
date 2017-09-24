@@ -14,6 +14,10 @@ var session = require('express-session');
 var app = express();
 var polls = require('./routes/polls');
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -39,8 +43,6 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -69,7 +71,7 @@ app.get('/api/logout', (req,res)=>{
 app.get('/api/current_user', (req,res)=>{
     
   if(req.user) {
-      res.json({loggedIn: true, user: req.user});
+      res.json({loggedIn: true, user: req.headers});
     } else {
       res.json({loggedIn: false});
     }   

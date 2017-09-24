@@ -19,6 +19,7 @@ import MenuBar from './MenuBar';
 import Footer from './Footer';
 import HomePage from './HomePage';
 import MyPolls from './MyPolls';
+import ViewPoll from './ViewPoll';
 
 let loggedIn = null;
 
@@ -36,15 +37,15 @@ ReactDOM.render(
    <Router>
     <div>
       <MenuBar/>
-      <Route exact path="/MyPolls" render={() => (
-      loggedIn ? (
-        <MyPolls/>
-          ) : (
-        <Redirect to="/"/>
-        
-      )
+        <Route exact path="/MyPolls" render={() => (
+          loggedIn ? (
+          <MyPolls/>
+            ) : (
+          <Redirect to="/"/>
+            )
       )}/>
       <Route exact path="/" component={HomePage}/>
+      <Route exact path="/poll" component={ViewPoll}/>
       <Footer/>
     </div>
   </Router>

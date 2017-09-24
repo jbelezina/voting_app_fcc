@@ -9,7 +9,8 @@ class PollsList extends React.Component {
   let polls = this.props.polls;
   let pollsList = polls.map((poll, indexOfPoll)=>{
     return (
-          <Poll key={indexOfPoll} 
+          <Poll 
+                key={indexOfPoll} 
                 question={poll.pollingQuestion} 
                 answers={poll.answers} 
                 indexOfPoll={indexOfPoll} 

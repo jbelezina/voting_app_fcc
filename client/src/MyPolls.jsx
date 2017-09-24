@@ -25,7 +25,8 @@ class MyPolls extends React.Component {
       username: 'Jan',
       MyPolls: [],
       OtherPolls: [],
-      pollEditingMode: false,
+      pollEditingActive: false,
+      editedPollId: null,
     }
 
     this.submitPoll = this.submitPoll.bind(this);
@@ -34,22 +35,44 @@ class MyPolls extends React.Component {
     this.thirdTabActive = this.thirdTabActive.bind(this);
     this.voteForItem = this.voteForItem.bind(this);
     this.logMyPollsState = this.logMyPollsState.bind(this);
+    this.updateOtherPolls = this.updateOtherPolls.bind(this);
+    this.activatePollEditing = this.activatePollEditing.bind(this);
   }
   
+  activatePollEditing(pollId){
+    this.setState({
+      pollEditingActive: true,
+      editedPollId: pollId,
+    });
+  }
+
   logMyPollsState(){
     console.log(this.state);
   }
   
+  ComponentWillMount() {
+    this.setState({activeTab:2});
+  }
+
   componentDidMount() {
           fetch('/api/polls', { credentials : 'same-origin' })
             .then(res => res.json())
-            .then(polls => {this.setState({ OtherPolls: polls }) });
+            .then(polls => {
+            this.setState({OtherPolls: polls});
+            console.log(this.state.OtherPolls); 
+          });
+  }
+
+  updateOtherPolls() {
+    fetch('/api/polls', { credentials : 'same-origin' })
+    .then(res => res.json())
+    .then(polls => {
+    this.setState({OtherPolls: polls});
+    console.log(this.state.OtherPolls); 
+    });
   }
   
   voteForItem(indexOfPoll, indexOfAnswer, pollId){
-    
-    // increase vote count
-    
     console.log("index of question: " + indexOfPoll + " index of answer: " + indexOfAnswer);
     let newOtherPolls = this.state.OtherPolls;
     
@@ -100,11 +123,6 @@ class MyPolls extends React.Component {
     });
   }
   
-  ComponentWillMount() {
-    this.setState({activeTab:2});
-  }
-  
-  
   render() {
     
     const activeTab = parseInt(this.state.activeTab, 10);
@@ -115,11 +133,17 @@ class MyPolls extends React.Component {
     let tabContents = null;
     
     if (activeTab === 1) {
-        tabContents = <ManagePollsTab myPolls={this.state.MyPolls}/>
+        tabContents = <ManagePollsTab myPolls={this.state.OtherPolls} 
+                                      updateOtherPolls={this.updateOtherPolls}
+                                      pollEditingActive={this.state.pollEditingActive}
+                                      activatePollEditing={this.activatePollEditing}
+                                      />
     } else if (activeTab === 2) {
         tabContents = <CreatePoll firstTabActive={this.firstTabActive} 
                                   submitPoll={this.submitPoll} 
-                                  hideForm={this.hidePollForm}/>
+                                  hideForm={this.hidePollForm}
+                                  updateOtherPolls={this.updateOtherPolls}
+                                  />
     } else if (activeTab === 3) {
         tabContents = <PollsList polls={this.state.OtherPolls} 
                                  voteForItem={this.voteForItem} 

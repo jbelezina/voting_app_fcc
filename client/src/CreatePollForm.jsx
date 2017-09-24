@@ -1,12 +1,12 @@
 import React from 'react';
 import NewAnswer from './NewAnswer';
-import PollingQuestion from './PollingQuestion';
 
 class CreatePollForm extends React.Component {
   
   constructor(){
     super();
     this.state = {
+      savedPollUrl: null,
       pollingQuestion: '',
       answers: [
         {answer: '', key: Math.random().toString()},
@@ -24,7 +24,6 @@ class CreatePollForm extends React.Component {
   
   setPollingQuestion(event){
     this.setState({pollingQuestion: event.target.value});
-    console.log('polling question:' + this.state.pollingQuestion);
   }
   
   addAnswer(){
@@ -77,25 +76,38 @@ class CreatePollForm extends React.Component {
     let pollingQuestion = this.state.pollingQuestion;
     let answers = this.state.answers;
     
-    let polldata = [
-        {
-          pollId: Math.random(),
+    let polldata = {
           userId: 123,
           createdDate: new Date().toISOString().slice(0, 10),
           pollingQuestion: pollingQuestion,
-          answers: answers
-        }
-        ];
-        
-    this.props.submitPoll(polldata);
-    this.props.firstTabActive();
-    
-    }
-    
+          answers: answers,
+        };          
+
+    fetch('/api/polls/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(polldata),
+    })
+    .then((response) => {
+              response.json()
+              .then((response) => {
+               //this.setState({submittedPollId:pollId})
+               this.setState({pollingQuestion: 'nothing here'});
+               this.setState({
+                savedPollUrl: 'http://localhost3000/polls/' + response.pollId,
+                answers: [{answer: '', key: Math.random().toString()}],
+                })
+              })
+              this.props.updateOtherPolls();    
+            })
+} 
+  
   clearForm(){
-    
-    this.setState({answers: [{pollingQuestion: ' ', answer: '', key: Math.random().toString()}] });
-    console.log(this.state)
+    this.setState({ pollingQuestion: '',
+                    answers: [{ answer: '', key: Math.random().toString()}] });
   }
   
   logState(){
@@ -104,6 +116,7 @@ class CreatePollForm extends React.Component {
   
   render() {
     
+    let shareYourPoll = null;
     let answersRender = [];
     let answersArray = this.state.answers;
     
@@ -115,13 +128,25 @@ class CreatePollForm extends React.Component {
       handleAnswerChange={this.handleAnswerChange}
       removeAnswer={this.removeAnswer} />);
     }
+
+    if (this.state.savedPollUrl) {
+      shareYourPoll = (
+        <div className="row">
+          <div className="col s12">
+            <p>Your poll was saved! Share it now:  {this.state.savedPollUrl} </p>
+          </div>
+        </div>
+      )
+    } 
+
     
     return (
       <div>
+        {shareYourPoll}
         <div className="row">
           <div className="col s12">
             <div className="input-field">
-              <PollingQuestion setPollingQuestion={this.setPollingQuestion}/>
+            <input onChange={this.setPollingQuestion} placeholder="Enter your polling question" id="subject" type="text" />
             </div>
           </div>
         </div>

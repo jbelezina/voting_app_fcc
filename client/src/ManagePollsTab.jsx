@@ -6,15 +6,23 @@ class ManagePollsTab extends React.Component {
   
   constructor(){
     super();
-    this.state = {
-      pollEditingMode: false,
-    }
-
+    this.deletePoll = this.deletePoll.bind(this);
   }
   
+  
+  deletePoll(pollId){
+   console.log(pollId); 
+    
+   fetch('/api/polls/' + pollId, { 
+    credentials : 'same-origin',
+     method: 'DELETE'
+     })
+     .then(this.props.updateOtherPolls);
+  }
+
+
   activatePollEditingMode(){
-    this.setState({pollEditingMode: true});
-    this.forceUpdate();
+    this.props.activatePollEditing();
   }
   
   
@@ -22,10 +30,13 @@ class ManagePollsTab extends React.Component {
   
   let tabContent = null;
 
-  if (this.pollEditingMode === true) {
+  if (this.props.pollEditingActive === true) {
     tabContent = <CreatePollForm />    
   } else if (this.props.myPolls.length > 0) {
-    tabContent = <PollsCrudTable myPolls={this.props.myPolls}/>
+    tabContent = <PollsCrudTable myPolls={this.props.myPolls} 
+                                 deletePoll={this.deletePoll}
+                                 activatePollEditing={this.props.activatePollEditing}
+                                 />
   } else if (this.props.myPolls.length === 0) {
     tabContent = <p>Nothing here yet! Go ahead and create a poll first.</p> 
   }

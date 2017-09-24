@@ -109,12 +109,24 @@ class Poll extends React.Component {
   
   return (
       <li key={this.props.answers[0]['key']} >
-          <ul>
-              <li className="col s12"><p><span>{this.props.question}{voteNowButton}</span></p></li>
-              <li className="col s10 offset-s2">
-                {pollContent}
-              </li>
-          </ul>
+              <div className="row">
+                <div className="col s10">
+                <br/>
+                {this.props.question}
+                </div>
+                <div className="col s2">
+                <br/>
+                {voteNowButton}
+                </div>
+              </div>
+              <div className="row">   
+                <div>
+                  {pollContent}
+                </div>
+              </div>
+              
+              <div className=" col s12 divider"></div>
+              
       </li>
     )
   }

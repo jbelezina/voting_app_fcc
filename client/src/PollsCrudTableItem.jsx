@@ -4,7 +4,15 @@ import React from 'react';
 class PollsCrudTableItem extends React.Component {
 
   handleEdit(){
-    console.log('edit button pressed');
+    this.props.activatePollEditing(this.props.poll._id);
+  }
+
+  handleDelete(){
+    this.props.deletePoll(this.props.poll._id)
+  }
+
+  handleView(){
+
   }
   
   render() {
@@ -15,7 +23,11 @@ class PollsCrudTableItem extends React.Component {
           <tr>
             <td className="center-align">{item.pollingQuestion}</td>
             <td className="center-align">{item.createdDate}</td>
-            <td className="center-align"> <a className="btn green">View</a> <a className="btn blue" onClick={this.handleEdit.bind(this)}>Edit</a> <a className="btn red">Delete</a></td>
+            <td className="center-align"> 
+              <a className="btn green">View</a> 
+              <a className="btn blue" onClick={this.handleEdit.bind(this)}>Edit</a> 
+              <a className="btn red" onClick={this.handleDelete.bind(this)}>Delete</a>
+            </td>
           </tr>
           )
   }
